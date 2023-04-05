@@ -22,7 +22,7 @@ async function bootstrap(): Promise<void> {
 
   // // enable shutdown hook
   const prismaService: PrismaService = app.get(PrismaService);
-  await prismaService.enableShutdownHooks(app);
+  prismaService.enableShutdownHooks(app);
 
   // set global api prefix
   app.setGlobalPrefix(ServerConfig.apiPrefix);
