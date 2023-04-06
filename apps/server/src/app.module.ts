@@ -30,14 +30,15 @@ import { TodoModule } from './todo/todo.module';
   providers: [
     {
       provide: APP_INTERCEPTOR,
-      useFactory: () => new SentryInterceptor({
-        filters: [
-          {
-            type: HttpException,
-            filter: (exception: HttpException) => exception.getStatus() > 500, // Only report 500 errors
-          },
-        ],
-      }),
+      useFactory: () =>
+        new SentryInterceptor({
+          filters: [
+            {
+              type: HttpException,
+              filter: (exception: HttpException) => exception.getStatus() > 500,
+            },
+          ],
+        }),
     },
     {
       provide: APP_INTERCEPTOR,

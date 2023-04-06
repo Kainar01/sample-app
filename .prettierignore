@@ -5,3 +5,6 @@ prisma/migrations/
 yarn.lock
 coverage/
 *.md
+
+# graphql
+apps/server/src/schema.graphql

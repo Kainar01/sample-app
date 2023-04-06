@@ -1,8 +1,10 @@
 {
   "recommendations": [
-    "nrwl.angular-console",
+    "codezombiech.gitignore",
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "prisma.prisma",
+    "graphql.vscode-graphql"
   ]
 }

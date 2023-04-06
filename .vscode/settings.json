@@ -7,12 +7,15 @@
   ],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // run eslint after prettier. https://rohit.page/blog/posts/how-to-get-prettier-eslint-play-nicely-with-vscode/
-  "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
+  "editor.codeActionsOnSave": [
+    "source.formatDocument",
+    "source.fixAll.eslint"
+  ],
   "[prisma]": {
     "editor.defaultFormatter": null
   },
-  "prettier.configPath": ".prettierrc",
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "prettier.configPath": ".prettierrc"
 }

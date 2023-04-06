@@ -1,39 +1,39 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["apps/server/tsconfig.*?.json"],
+    "project": [
+      "apps/server/tsconfig.*?.json"
+    ],
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "sonarjs", "jest"],
+  "plugins": [
+    "@typescript-eslint",
+    "jest"
+  ],
   "extends": [
     "../../.eslintrc.json",
-    "prettier",
-    "eslint:recommended",
     "airbnb-base",
     "airbnb-typescript/base",
     "plugin:jest/recommended",
-    "plugin:sonarjs/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier"
   ],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": [
+    "!**/*"
+  ],
   "rules": {
     "class-methods-use-this": "off",
     // https://github.com/typescript-eslint/typescript-eslint/issues/1277
     "consistent-return": "off",
-    "func-names": "off",
     "max-len": [
       "error",
       {
-        "code": 120,
-        "ignoreTemplateLiterals": true
+        "code": 100,
+        "ignoreTemplateLiterals": true,
+        "comments": 120
       }
     ],
-    // remove
-    "no-extra-parens": "off",
-    "no-mixed-operators": "off",
-    "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
-
     "newline-per-chained-call": "off",
     "no-await-in-loop": "off",
     "no-continue": "off",
@@ -44,26 +44,12 @@
         "capIsNew": false
       }
     ],
-    // https://github.com/airbnb/javascript/issues/1342
-    "no-param-reassign": [
-      "error",
-      {
-        "props": false
-      }
-    ],
-    // https://github.com/airbnb/javascript/issues/1271
     // https://github.com/airbnb/javascript/blob/master/packages/eslint-config-airbnb-base/rules/style.js#L334-L352
     "no-restricted-syntax": [
       "error",
       "ForInStatement",
       "LabeledStatement",
       "WithStatement"
-    ],
-    "no-underscore-dangle": [
-      "error",
-      {
-        "allow": ["_id"]
-      }
     ],
     "no-void": [
       "error",
@@ -72,18 +58,11 @@
       }
     ],
     "object-curly-newline": "off",
-    "spaced-comment": [
-      "error",
-      "always",
-      {
-        "line": {
-          "markers": ["/", "#region", "#endregion"]
-        }
-      }
-    ],
     // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/keyword-spacing.md
     "keyword-spacing": "off",
-    "@typescript-eslint/keyword-spacing": ["error"],
+    "@typescript-eslint/keyword-spacing": [
+      "error"
+    ],
     // Change eslint rule to @typescript-eslint rule
     "lines-between-class-members": [
       "error",
@@ -126,7 +105,11 @@
             "position": "after"
           }
         ],
-        "groups": ["builtin", "external", "internal"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal"
+        ],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",
@@ -137,7 +120,9 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["~/modules/*/*"]
+        "patterns": [
+          "~/modules/*/*"
+        ]
       }
     ],
     "@typescript-eslint/consistent-indexed-object-style": "error",
@@ -170,17 +155,27 @@
       "error",
       {
         "selector": "default",
-        "format": ["strictCamelCase"]
+        "format": [
+          "strictCamelCase"
+        ]
       },
       {
         "selector": "variable",
-        "format": ["strictCamelCase", "UPPER_CASE", "StrictPascalCase"]
+        "format": [
+          "strictCamelCase",
+          "UPPER_CASE",
+          "StrictPascalCase"
+        ]
       },
       // https://github.com/microsoft/TypeScript/issues/9458
       {
         "selector": "parameter",
-        "modifiers": ["unused"],
-        "format": ["strictCamelCase"],
+        "modifiers": [
+          "unused"
+        ],
+        "format": [
+          "strictCamelCase"
+        ],
         "leadingUnderscore": "allow"
       },
       {
@@ -193,19 +188,27 @@
       },
       {
         "selector": "typeLike",
-        "format": ["PascalCase"]
+        "format": [
+          "PascalCase"
+        ]
       },
       {
         "selector": "interface",
-        "format": ["PascalCase"]
+        "format": [
+          "PascalCase"
+        ]
       },
       {
         "selector": "enumMember",
-        "format": ["UPPER_CASE"]
+        "format": [
+          "UPPER_CASE"
+        ]
       },
       {
         "selector": "classMethod",
-        "format": ["camelCase"]
+        "format": [
+          "camelCase"
+        ]
       }
     ],
     "@typescript-eslint/no-dupe-class-members": "error",
@@ -239,7 +242,10 @@
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unused-expressions": "error",
-    "@typescript-eslint/object-curly-spacing": ["error", "always"],
+    "@typescript-eslint/object-curly-spacing": [
+      "error",
+      "always"
+    ],
     "@typescript-eslint/prefer-includes": "off",
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/promise-function-async": "error",
@@ -259,7 +265,6 @@
         "ignoreStatic": true
       }
     ],
-    "@typescript-eslint/no-empty-interface": "off",
-    "sonarjs/no-duplicate-string": "off"
+    "@typescript-eslint/no-empty-interface": "off"
   }
 }

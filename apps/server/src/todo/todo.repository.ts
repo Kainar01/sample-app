@@ -8,7 +8,7 @@ import { PrismaService } from '../prisma';
 export class TodoRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async findOneById(id: number): Promise<Todo> {
+  public async findOneById(id: number): Promise<Todo | null> {
     return this.prisma.todo.findFirst({ where: { id } });
   }
 

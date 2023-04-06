@@ -8,7 +8,7 @@ import { TodoRepository } from './todo.repository';
 export class TodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
-  public async findOneById(id: number): Promise<Todo> {
+  public async findOneById(id: number): Promise<Todo | null> {
     return this.todoRepository.findOneById(id);
   }
 
