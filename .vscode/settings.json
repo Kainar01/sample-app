@@ -17,5 +17,8 @@
   "[terraform]": {
     "editor.defaultFormatter": "hashicorp.terraform"
   },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
   "prettier.configPath": ".prettierrc"
 }

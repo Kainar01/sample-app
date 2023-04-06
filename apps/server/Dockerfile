@@ -1,33 +1,21 @@
-# Install dependencies only when needed
-FROM node:18.12.1-slim as deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+FROM node:18.12.1-slim AS base
 
-WORKDIR /usr/src/app
+# Required to run Prisma on ARM64 machines
+# https://github.com/prisma/prisma/issues/861#issuecomment-881992292
+RUN apt-get update
+RUN apt-get install -y openssl
 
-COPY dist/apps/core/package*.json ./
+WORKDIR /app
 
-RUN npm install --only=production
+COPY ./dist/apps/server/package.json ./
+COPY ./yarn.lock ./
 
-# Production image, copy all the files and run nest
-FROM node:18.12.1-slim as runner
+RUN yarn install --frozen-lockfile --production
 
-RUN apk add --no-cache dumb-init
+COPY ./dist/apps/server .
 
-ENV NODE_ENV production
-ENV PORT 3000
 
-WORKDIR /usr/src/app
-
-COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=deps /usr/src/app/package.json ./package.json
-
-COPY dist/apps/core .
-
-RUN chown -R node:node .
-
-USER node
-
+ENV PORT=3333
 EXPOSE $PORT
 
-CMD ["dumb-init", "node", "main.js"]
+ENTRYPOINT ["node", "./main.js"]
