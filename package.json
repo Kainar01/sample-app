@@ -31,7 +31,8 @@
     "graphql": "^16.6.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.5.1",

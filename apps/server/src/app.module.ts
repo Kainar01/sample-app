@@ -7,6 +7,7 @@ import {
   SentryInterceptor,
   SentryModule,
 } from '@ntegral/nestjs-sentry';
+import { TechbridgeLoggerModule } from '@techbridge/util/nestjs/logger';
 
 import { GraphQLConfig } from './config/graphql.config';
 import { SentryConfig } from './config/sentry.config';
@@ -15,6 +16,9 @@ import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [
+    TechbridgeLoggerModule.forRoot({
+      serviceName: 'server',
+    }),
     SentryModule.forRoot({
       dsn: SentryConfig.dsn,
       environment: ServerConfig.nodeEnv,
