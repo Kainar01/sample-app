@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AppService {
+export class CoreService {
   public getData(): { message: string } {
     return { message: 'Welcome to sample!' };
   }
