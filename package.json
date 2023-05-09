@@ -7,10 +7,7 @@
     "lint": "nx run-many --target=lint",
     "serve:server": "nx serve server",
     "prepare": "husky install",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*": "nx run-many --target=lint --lintFilePatterns"
+    "precommit": "lint-staged --relative"
   },
   "private": true,
   "dependencies": {
@@ -60,6 +57,7 @@
     "@nx-tools/nx-container": "^4.0.3",
     "@nx-tools/nx-prisma": "^4.0.3",
     "@types/bcrypt": "^5.0.0",
+    "@types/cookie-parser": "^1.4.3",
     "@types/jest": "^29.4.0",
     "@types/lodash": "^4.14.192",
     "@types/node": "~18.7.1",
