@@ -42,7 +42,7 @@ Thumbs.db
 .next
 .env.local
 
-src/schema.graphql
+*.graphql
 .tsbuildinfo
 
 # ENV
