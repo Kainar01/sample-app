@@ -3,9 +3,10 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 import { ServerConfig } from './config/server.config';
@@ -17,10 +18,19 @@ import {
   swaggerSetupOptions,
 } from './swagger';
 
+function middleware(app: INestApplication): void {
+  // CORS
+  if (ServerConfig.corsEnable) {
+    app.enableCors();
+  }
+
+  app.use(cookieParser());
+}
+
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
-  // // enable shutdown hook
+  // enable shutdown hook
   const prismaService: PrismaService = app.get(PrismaService);
   prismaService.enableShutdownHooks(app);
 
@@ -37,10 +47,8 @@ async function bootstrap(): Promise<void> {
     app.enableShutdownHooks();
   }
 
-  // CORS
-  if (ServerConfig.corsEnable) {
-    app.enableCors();
-  }
+  // middlewares
+  middleware(app);
 
   await app.listen(ServerConfig.port);
 
