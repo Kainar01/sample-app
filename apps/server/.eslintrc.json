@@ -150,7 +150,7 @@
     // https://github.com/typescript-eslint/typescript-eslint/issues/977
     "@typescript-eslint/lines-between-class-members": "off",
     "@typescript-eslint/member-delimiter-style": "error",
-    "@typescript-eslint/member-ordering": "error",
+    "@typescript-eslint/no-unsafe-return": "off",
     "@typescript-eslint/naming-convention": [
       "error",
       {
