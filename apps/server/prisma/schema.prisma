@@ -1,5 +1,5 @@
 generator serverClient {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,9 +8,34 @@ datasource db {
 }
 
 model Todo {
-  id          Int @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   description String?
-  title       String    
+  title       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String
+  password  String?
+  firstName String?
+  lastName  String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+  userRoles UserRole[]
+
+  @@unique([email], map: "User.email_unique")
+}
+
+model UserRole {
+  id        Int      @id @default(autoincrement())
+  role      String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, role], map: "UserRole.userId_role_unique")
 }
