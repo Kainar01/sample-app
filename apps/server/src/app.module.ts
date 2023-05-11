@@ -14,7 +14,6 @@ import { GraphQLConfig } from './config/graphql.config';
 import { SentryConfig } from './config/sentry.config';
 import { ServerConfig } from './config/server.config';
 import { CoreModule } from './core/core.module';
-import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [
@@ -27,7 +26,6 @@ import { TodoModule } from './todo/todo.module';
       environment: ServerConfig.nodeEnv,
       logLevels: ['debug'], // based on sentry.io loglevel //
     }),
-    TodoModule,
     CoreModule,
     // Initialize graphql after all application modules, otherwise the schema won't be generated
     GraphQLModule.forRoot<ApolloDriverConfig>({
