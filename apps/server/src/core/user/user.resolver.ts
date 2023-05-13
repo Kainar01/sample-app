@@ -1,6 +1,14 @@
 import { UseGuards } from '@nestjs/common';
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 
+import { UpdateUserArgs } from './dto/update-user.args';
 import { UserRole } from './schemas/user-role.schema';
 import { User } from './schemas/user.schema';
 import { UserService } from './user.service';
@@ -14,12 +22,21 @@ export class UserResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => User, { nullable: true })
-  public async getUser(@ReqUser() authUser: AuthUser): Promise<User> {
-    return this.userService.findUser(authUser.userId);
+  public async find(@ReqUser() authUser: AuthUser): Promise<User> {
+    return this.userService.find(authUser, authUser.userId);
   }
 
   @ResolveField(() => [UserRole])
-  public async getUserRoles(@Parent() user: User): Promise<UserRole[]> {
+  public async userRoles(@Parent() user: User): Promise<UserRole[]> {
     return this.userService.findUserRoles(user.id);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => User)
+  public async update(
+    @Args() { data }: UpdateUserArgs,
+    @ReqUser() currentUser: AuthUser,
+  ): Promise<User> {
+    return this.userService.update(currentUser, data);
   }
 }
