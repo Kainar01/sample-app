@@ -1,17 +1,15 @@
 import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
 
+import { abilities } from './abilities';
 import { AppAbility } from './permission.interface';
-import { policies } from './policies';
 import { AuthUser } from '../auth/auth.interface';
-
-
 
 export function createAbilityForUser(user: AuthUser): AppAbility {
   const abilityBuilder = new AbilityBuilder<any>(createMongoAbility);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  policies.forEach((policy) => policy.define(user, abilityBuilder));
+  abilities.forEach((ability) => ability.define(abilityBuilder, user));
 
   return abilityBuilder.build();
 }
