@@ -19,18 +19,18 @@ import { AuthUser } from '../auth/auth.interface';
  * @param actionType `SubjectAction` in format subject.action
  * @returns [`Subject`, `Action`]
  */
-function parseAction(actionType: SubjectAction): [Subject, Action] {
+export const parseAction = (actionType: SubjectAction): [Subject, Action] => {
   const [subject, action] = actionType.split('.');
 
   return [<Subject>subject, <Action>action];
-}
+};
 
 /**
  * Gets ability from request context or creates
  * @param user current user
  * @returns ability
  */
-function getCtxAbility(user: AuthUser): AppAbility {
+export const getCtxAbility = (user: AuthUser): AppAbility => {
   let ability = RequestContextService.getAbility();
 
   if (!ability) {
@@ -39,7 +39,7 @@ function getCtxAbility(user: AuthUser): AppAbility {
   }
 
   return ability;
-}
+};
 
 /**
  * This function is used to authorize an action performed by an actor on a subject.
@@ -58,11 +58,11 @@ function getCtxAbility(user: AuthUser): AppAbility {
  *
  * @throws {ForbiddenError} If the actor is not allowed to perform the action on the subject.
  */
-export function authorize(
+export const authorize = (
   actor: AuthUser,
   actionType: SubjectAction,
   subject: any,
-): void {
+): void => {
   const [subjectName, action] = parseAction(actionType);
   const ability = getCtxAbility(actor);
 
@@ -72,4 +72,4 @@ export function authorize(
   if (!isAllowed) {
     throw new ForbiddenError('Not Allowed');
   }
-}
+};

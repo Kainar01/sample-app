@@ -5,7 +5,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './schemas/user.schema';
 import { PrismaService } from '../../prisma';
 import { AuthUser } from '../auth/auth.interface';
-import { authorize } from '../permission/authorize';
+import { authorize } from '../permission/permission.utils';
 
 @Injectable()
 export class UserService {
