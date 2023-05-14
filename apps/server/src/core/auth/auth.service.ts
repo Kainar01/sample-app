@@ -9,6 +9,7 @@ import { PasswordService } from './password.service';
 import { Auth } from './schemas/auth.schema';
 import { AuthConfig } from '../../config/auth.config';
 import { PrismaService } from '../../prisma';
+import { Role } from '../user/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -115,9 +116,11 @@ export class AuthService {
   }
 
   private mapUserToAuthUser(user: User & { userRoles: UserRole[] }): AuthUser {
+    const isAdmin = user.userRoles.some(({ role }) => role === Role.ADMIN);
     return {
       userId: user.id,
       password: user.password,
+      isAdmin,
       roles: user.userRoles,
     };
   }
