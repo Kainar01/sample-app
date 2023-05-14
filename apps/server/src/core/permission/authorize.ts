@@ -11,6 +11,14 @@ import {
 import { RequestContextService } from '../../services/request-context.service';
 import { AuthUser } from '../auth/auth.interface';
 
+/**
+ * Takes `SubjectAction` as argument and returns parsed subject and action.
+ *
+ * user.read => `[user, read]`
+ *
+ * @param actionType `SubjectAction` in format subject.action
+ * @returns [`Subject`, `Action`]
+ */
 function parseAction(actionType: SubjectAction): [Subject, Action] {
   const [subject, action] = actionType.split('.');
 
