@@ -1,8 +1,6 @@
 import { AbilityBuilder, MongoAbility, InferSubjects } from '@casl/ability';
 
-import { Actions } from './casl.factory';
-
-export type CommonAction = 'create' | 'read' | 'update' | 'delete' | 'manage';
+import { Actions } from './permission.contants';
 
 /**
  * `Action` is a union of all actions across all subjects

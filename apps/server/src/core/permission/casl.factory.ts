@@ -5,10 +5,7 @@ import { AppAbility } from './permission.interface';
 import { policies } from './policies';
 import { AuthUser } from '../auth/auth.interface';
 
-export const Actions = <const>{
-  user: ['read', 'update', 'delete', 'suspend'],
-  todo: ['read', 'update', 'delete', 'copy'],
-};
+
 
 export function createAbilityForUser(user: AuthUser): AppAbility {
   const abilityBuilder = new AbilityBuilder<any>(createMongoAbility);
