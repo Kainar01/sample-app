@@ -1,5 +1,4 @@
 import { AbilityBuilder, createMongoAbility, subject } from '@casl/ability';
-import { User } from '@prisma/client';
 
 import { UserAbility } from './user.ability';
 import { AuthUser } from '../../auth/auth.interface';
