@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRedis, RedisClient } from '@techbridge/nestjs/redis';
+import moment from 'moment';
 
 import { AuthUser } from './auth.interface';
 
 @Injectable()
 export class RedisAuthService {
   private readonly AUTH_USER_KEY: string = 'auth:user';
+  private readonly AUTH_USER_TTL_SECONDS: number = moment
+    .duration(7, 'days')
+    .asSeconds();
+
   constructor(@InjectRedis('auth') private readonly redisClient: RedisClient) {}
 
   public async getUser(userId: number): Promise<AuthUser | null> {
@@ -22,6 +27,8 @@ export class RedisAuthService {
     await this.redisClient.set(
       this.getUserKey(user.userId),
       JSON.stringify(user),
+      'EX',
+      this.AUTH_USER_TTL_SECONDS,
     );
   }
 
