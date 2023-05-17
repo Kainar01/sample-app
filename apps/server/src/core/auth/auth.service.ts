@@ -6,6 +6,7 @@ import { AuthUser, JWTPayload } from './auth.interface';
 import { SignupInput } from './dto/signup.input';
 import { SigninInput } from './dto/singin.input';
 import { PasswordService } from './password.service';
+import { RedisAuthService } from './redis-auth.service';
 import { Auth } from './schemas/auth.schema';
 import { AuthConfig } from '../../config/auth.config';
 import { PrismaService } from '../../prisma';
@@ -17,7 +18,22 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService,
+    private readonly redisAuthService: RedisAuthService,
   ) {}
+
+  public async getCachedUser(userId: number): Promise<AuthUser | null> {
+    const cachedUser = await this.redisAuthService.getUser(userId);
+
+    if (!cachedUser) {
+      const user = await this.getAuthUser(userId);
+
+      await this.redisAuthService.setUser(user);
+
+      return user;
+    }
+
+    return cachedUser;
+  }
 
   public async getAuthUser(userId: number): Promise<AuthUser | null> {
     const user = await this.prisma.user.findFirst({

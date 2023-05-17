@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 import { UserRole } from '@prisma/client';
 
 import { UpdateUserInput } from './dto/update-user.input';
+import { UserUpdatedEvent } from './events/user-updated.event';
 import { User } from './schemas/user.schema';
 import { PrismaService } from '../../prisma';
 import { AuthUser } from '../auth/auth.interface';
@@ -9,7 +11,10 @@ import { authorize } from '../permission/permission.utils';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventBus: EventBus,
+  ) {}
 
   public async find(currentUser: AuthUser, userId: number): Promise<User> {
     const user = await this.prisma.user.findFirst({
@@ -37,6 +42,13 @@ export class UserService {
 
     authorize(currentUser, 'user.delete', user);
 
-    return this.prisma.user.update({ where: { id: user.id }, data });
+    const updatedUser = await this.prisma.user.update({
+      where: { id: user.id },
+      data,
+    });
+
+    this.eventBus.publish(new UserUpdatedEvent(user.id));
+
+    return updatedUser;
   }
 }
