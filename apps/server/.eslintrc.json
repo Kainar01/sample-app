@@ -231,5 +231,13 @@
       }
     ],
     "@typescript-eslint/no-empty-interface": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.ts", "**/*.test.ts"],
+      "rules": {
+        "@typescript-eslint/unbound-method": "off"
+      }
+    }
+  ]
 }
