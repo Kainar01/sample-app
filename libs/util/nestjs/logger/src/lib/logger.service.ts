@@ -20,7 +20,6 @@ export class TechbridgeLogger implements LoggerService {
       isProduction:
         options.isProduction ?? process.env.NODE_ENV === 'production',
     };
-    console.log('helo');
     this.logger = new Logger(this.loggerOptions);
   }
 
