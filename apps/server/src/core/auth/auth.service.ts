@@ -58,6 +58,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email');
     }
 
+    if (user.deletedAt) {
+      throw new UnauthorizedException('Account is deleted');
+    }
+
     const isPasswordValid = await this.passwordService.validatePassword(
       payload.password,
       user.password,
@@ -65,10 +69,6 @@ export class AuthService {
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid password');
-    }
-
-    if (user.deletedAt) {
-      throw new UnauthorizedException('Account is deleted');
     }
 
     return this.prepareToken(user);
