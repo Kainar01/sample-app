@@ -12,4 +12,8 @@ export class AuthConfig {
   public static readonly BCRYPT_SALT_ROUNDS: number = get('BCRYPT_SALT_ROUNDS')
     .default(10)
     .asInt();
+
+  public static readonly REDIS_URL: string = get('AUTH_REDIS_URL')
+    .required()
+    .asString();
 }
