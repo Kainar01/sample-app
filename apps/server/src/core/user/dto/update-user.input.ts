@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsNumber, MinLength } from 'class-validator';
 
 @InputType()
 export class UpdateUserInput {
-  @Field({ nullable: true })
+  @Field({ nullable: false })
   @IsNumber()
   public id: number;
 
