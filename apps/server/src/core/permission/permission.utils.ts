@@ -19,7 +19,9 @@ import { AuthUser } from '../auth/auth.interface';
  * @param actionType `SubjectAction` in format subject.action
  * @returns [`Subject`, `Action`]
  */
-export const parseAction = (actionType: SubjectAction): [Subject, Action] => {
+export const parseSubjectAction = (
+  actionType: SubjectAction,
+): [Subject, Action] => {
   const [subject, action] = actionType.split('.');
 
   return [<Subject>subject, <Action>action];
@@ -53,21 +55,24 @@ export const getCtxAbility = (user: AuthUser): AppAbility => {
  * If the actor is not allowed to perform the action, the function throws a `ForbiddenError`.
  *
  * @param {AuthUser} actor - The authenticated user who is trying to perform the action.
- * @param {SubjectAction} actionType - The type of action to be performed, represented as a string in the form 'subject.action'.
- * @param {any} subject - The subject on which the action is to be performed. Can be of any type.
+ * @param {SubjectAction} subjectAction - The type of action to be performed, represented as a string in the form 'subject.action'.
+ * @param {any} targetEntity - The subject on which the action is to be performed. Can be of any type.
  *
  * @throws {ForbiddenError} If the actor is not allowed to perform the action on the subject.
  */
 export const authorize = (
   actor: AuthUser,
-  actionType: SubjectAction,
-  subject: any,
+  subjectAction: SubjectAction,
+  targetEntity: any,
 ): void => {
-  const [subjectName, action] = parseAction(actionType);
+  const [subject, action] = parseSubjectAction(subjectAction);
   const ability = getCtxAbility(actor);
 
+  // convert entity to casl subject, this is required by CASL's "can" function
+  const targetSubject = caslSubject(subject, targetEntity);
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const isAllowed = ability.can(action, caslSubject(subjectName, subject));
+  const isAllowed = ability.can(action, targetSubject);
 
   if (!isAllowed) {
     throw new ForbiddenError('Not Allowed');
