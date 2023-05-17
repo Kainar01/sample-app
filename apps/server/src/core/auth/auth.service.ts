@@ -119,7 +119,6 @@ export class AuthService {
     const isAdmin = user.userRoles.some(({ role }) => role === Role.ADMIN);
     return {
       userId: user.id,
-      password: user.password,
       isAdmin,
       roles: user.userRoles,
     };

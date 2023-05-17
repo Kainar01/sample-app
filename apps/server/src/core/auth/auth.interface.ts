@@ -6,7 +6,6 @@ export interface JWTPayload {
 
 export interface AuthUser {
   userId: number;
-  password: string;
   isAdmin: boolean;
   roles: UserRole[];
 }

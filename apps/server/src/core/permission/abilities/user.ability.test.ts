@@ -7,7 +7,6 @@ import { AppAbility } from '../permission.interface';
 
 const ADMIN_USER: AuthUser = {
   userId: 1,
-  password: '',
   isAdmin: true,
   roles: [
     {
@@ -22,7 +21,6 @@ const ADMIN_USER: AuthUser = {
 
 const REGULAR_USER: AuthUser = {
   userId: 2,
-  password: '',
   isAdmin: false,
   roles: [],
 };

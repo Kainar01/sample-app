@@ -7,7 +7,6 @@ import { Role } from '../user/enums/role.enum';
 
 const ADMIN_USER: AuthUser = {
   userId: 1,
-  password: '',
   isAdmin: true,
   roles: [
     {
@@ -22,7 +21,6 @@ const ADMIN_USER: AuthUser = {
 
 const REGULAR_USER: AuthUser = {
   userId: 2,
-  password: '',
   isAdmin: false,
   roles: [],
 };
@@ -43,7 +41,7 @@ describe('authorize', () => {
   let spyOnGetCtxAbility: jest.SpyInstance;
 
   beforeEach(() => {
-    spyOnParseAction = jest.spyOn(utils, 'parseAction');
+    spyOnParseAction = jest.spyOn(utils, 'parseSubjectAction');
     spyOnGetCtxAbility = jest.spyOn(utils, 'getCtxAbility');
   });
 
@@ -52,14 +50,14 @@ describe('authorize', () => {
     spyOnGetCtxAbility.mockRestore();
   });
 
-  it('parseAction should return parsed subject and action', () => {
-    const [subject, action] = utils.parseAction('user.delete');
+  it('parseSubjectAction should return parsed subject and action', () => {
+    const [subject, action] = utils.parseSubjectAction('user.delete');
 
     expect(subject).toEqual('user');
     expect(action).toEqual('delete');
   });
 
-  it('authorize should call parseAction with subjectAction', () => {
+  it('authorize should call parseSubjectAction with subjectAction', () => {
     const mockCan = jest.fn(() => true);
     spyOnGetCtxAbility.mockReturnValue({ can: mockCan });
 
