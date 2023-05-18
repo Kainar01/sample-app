@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { UseFilters, UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -13,9 +13,11 @@ import { UserRole } from './schemas/user-role.schema';
 import { User } from './schemas/user.schema';
 import { UserService } from './user.service';
 import { ReqUser } from '../../decorators/user.decorator';
+import { GqlResolverExceptionsFilter } from '../../filters/gql-resolver-excepion.filter';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
 import { AuthUser } from '../auth/auth.interface';
 
+@UseFilters(GqlResolverExceptionsFilter)
 @Resolver(() => User)
 export class UserResolver {
   constructor(private userService: UserService) {}

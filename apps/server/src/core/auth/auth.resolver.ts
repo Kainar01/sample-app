@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { UseFilters, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Response } from 'express';
 import _ from 'lodash';
@@ -9,8 +9,10 @@ import { SigninArgs } from './dto/signin.args';
 import { SignupArgs } from './dto/signup.args';
 import { Auth } from './schemas/auth.schema';
 import { ReqUser } from '../../decorators/user.decorator';
+import { GqlResolverExceptionsFilter } from '../../filters/gql-resolver-excepion.filter';
 import { GqlRefreshAuthGuard } from '../../guards/gql-refresh-auth.guard';
 
+@UseFilters(GqlResolverExceptionsFilter)
 @Resolver(() => Auth)
 export class AuthResolver {
   constructor(private authService: AuthService) {}
