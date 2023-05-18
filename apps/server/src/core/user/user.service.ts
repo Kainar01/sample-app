@@ -40,7 +40,7 @@ export class UserService {
       },
     });
 
-    authorize(currentUser, 'user.delete', user);
+    authorize(currentUser, 'user.update', user);
 
     const updatedUser = await this.prisma.user.update({
       where: { id: user.id },
