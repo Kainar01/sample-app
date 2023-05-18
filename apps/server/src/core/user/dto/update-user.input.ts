@@ -9,16 +9,16 @@ export class UpdateUserInput {
 
   @Field({ nullable: true })
   @IsEmail()
-  public email: string;
+  public email?: string;
 
   @Field({ nullable: true })
   @IsNotEmpty()
   @MinLength(8)
-  public password: string;
+  public password?: string;
 
   @Field({ nullable: true })
-  public firstName: string;
+  public firstName?: string;
 
   @Field({ nullable: true })
-  public lastName: string;
+  public lastName?: string;
 }
