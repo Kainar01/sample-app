@@ -25,7 +25,7 @@
     "@nestjs/swagger": "^6.2.1",
     "@ntegral/nestjs-sentry": "^4.0.0",
     "@prisma/client": "^4.5.0",
-    "@sentry/node": "^7.46.0",
+    "@sentry/node": "^7.50.0",
     "axios": "^1.0.0",
     "bcrypt": "^5.1.0",
     "class-validator": "^0.14.0",
