@@ -7,7 +7,7 @@ import {
   RedisClients,
 } from './redis.interface';
 import {
-  createAsyncOptionsProvider,
+  createAsyncOptionsProviders,
   createOptionsProvider,
   createNamespaceClientProviders,
   mergedOptionsProvider,
@@ -45,7 +45,7 @@ export class RedisModule implements OnApplicationShutdown {
     const namespaceClientProviders = createNamespaceClientProviders();
 
     const providers: Provider[] = [
-      createAsyncOptionsProvider(options),
+      ...createAsyncOptionsProviders(options),
       mergedOptionsProvider,
       redisClientsProvider,
       ...namespaceClientProviders,

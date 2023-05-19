@@ -16,6 +16,7 @@ import {
   RedisClients,
   RedisModuleAsyncOptions,
   RedisModuleOptions,
+  RedisOptionsFactory,
 } from './redis.interface';
 import { getClient } from './redis.utils';
 
@@ -77,32 +78,48 @@ export const createOptionsProvider = (
   useValue: options,
 });
 
-export const createAsyncOptionsProvider = (
+export const createAsyncOptions = async (
+  optionsFactory: RedisOptionsFactory,
+): Promise<RedisModuleOptions> => {
+  return await optionsFactory.createRedisOptions();
+};
+
+export const createAsyncOptionsProviders = (
   options: RedisModuleAsyncOptions,
-): Provider => {
+): Provider[] => {
+  const providers: Provider[] = [];
+
   if ('useFactory' in options) {
-    return {
+    providers.push({
       provide: REDIS_MODULE_OPTIONS,
       useFactory: options.useFactory,
       inject: options.inject,
-    };
+    });
   }
 
   if ('useClass' in options) {
-    return {
-      provide: REDIS_MODULE_OPTIONS,
-      useClass: options.useClass,
-    };
+    providers.push(
+      {
+        provide: options.useClass,
+        useClass: options.useClass,
+      },
+      {
+        provide: REDIS_MODULE_OPTIONS,
+        useFactory: createAsyncOptions,
+        inject: [options.useClass],
+      },
+    );
   }
 
   if ('useExisting' in options) {
-    return {
+    providers.push({
       provide: REDIS_MODULE_OPTIONS,
-      useExisting: options.useExisting,
-    };
+      useFactory: createAsyncOptions,
+      inject: [options.useExisting],
+    });
   }
 
-  throw new RedisClientError('Invalid options provided');
+  return providers;
 };
 
 export const mergedOptionsProvider: FactoryProvider<RedisModuleOptions> = {
