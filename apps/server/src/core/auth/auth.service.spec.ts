@@ -10,6 +10,7 @@ import { PasswordService } from './password.service';
 import { RedisAuthService } from './redis-auth.service';
 import { Auth } from './schemas/auth.schema';
 import { PrismaService } from '../../prisma';
+import { UserService } from '../user/user.service';
 
 const mockUser: User & { userRoles: UserRole[] } = {
   id: 1,
@@ -48,6 +49,7 @@ const mockJwt: Auth = {
 
 describe('AuthService', () => {
   let authService: AuthService;
+  let userService: UserService;
   let prismaService: PrismaService;
   let passwordService: PasswordService;
   let redisAuthService: RedisAuthService;
@@ -60,6 +62,12 @@ describe('AuthService', () => {
           provide: PrismaService,
           useValue: {
             user: { findFirst: jest.fn().mockResolvedValue(mockUser) },
+          },
+        },
+        {
+          provide: UserService,
+          useValue: {
+            create: jest.fn().mockResolvedValue(mockUser),
           },
         },
         {
@@ -88,6 +96,7 @@ describe('AuthService', () => {
 
     authService = moduleRef.get<AuthService>(AuthService);
     prismaService = moduleRef.get<PrismaService>(PrismaService);
+    userService = moduleRef.get<UserService>(UserService);
     passwordService = moduleRef.get<PasswordService>(PasswordService);
     redisAuthService = moduleRef.get<RedisAuthService>(RedisAuthService);
   });
@@ -219,8 +228,8 @@ describe('AuthService', () => {
     };
 
     it('should call create method with hashed password', async () => {
-      const prismaCreateMock = jest.fn().mockResolvedValue(mockSignupUser);
-      prismaService.user.create = prismaCreateMock;
+      const userCreateMock = jest.fn().mockResolvedValue(mockSignupUser);
+      userService.create = userCreateMock;
       passwordService.hashPassword = jest
         .fn()
         .mockResolvedValue(mockHashedPassword);
@@ -230,8 +239,8 @@ describe('AuthService', () => {
       expect(passwordService.hashPassword).toBeCalledWith(
         mockSignupInput.password,
       );
-      // check that `prisma.user.create` method is called with hashed password
-      expect(prismaCreateMock.mock.calls[0][0].data).toEqual(
+      // check that `userService.create` method is called with hashed password
+      expect(userCreateMock.mock.calls[0][0]).toEqual(
         expect.objectContaining({
           password: mockHashedPassword,
         }),
@@ -239,12 +248,13 @@ describe('AuthService', () => {
     });
 
     it('should return jwt token', async () => {
-      const prismaCreateMock = jest.fn().mockResolvedValue(mockSignupUser);
-      prismaService.user.create = prismaCreateMock;
+      const userCreateMock = jest.fn().mockResolvedValue(mockSignupUser);
+      userService.create = userCreateMock;
       passwordService.hashPassword = jest
         .fn()
         .mockResolvedValue(mockHashedPassword);
       authService.prepareToken = jest.fn().mockResolvedValue(mockJwt);
+
       await authService.signup(mockSignupInput);
 
       expect(passwordService.hashPassword).toBeCalledWith(

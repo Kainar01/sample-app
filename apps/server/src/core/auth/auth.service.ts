@@ -11,6 +11,7 @@ import { Auth } from './schemas/auth.schema';
 import { AuthConfig } from '../../config/auth.config';
 import { PrismaService } from '../../prisma';
 import { Role } from '../user/enums/role.enum';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService,
     private readonly redisAuthService: RedisAuthService,
+    private readonly userService: UserService,
   ) {}
 
   public async getCachedUser(userId: number): Promise<AuthUser | null> {
@@ -79,13 +81,11 @@ export class AuthService {
       payload.password,
     );
 
-    const user = await this.prisma.user.create({
-      data: {
-        email: payload.email,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        password: hashedPassword,
-      },
+    const user = await this.userService.create({
+      email: payload.email,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      password: hashedPassword,
     });
 
     return this.prepareToken(user);
