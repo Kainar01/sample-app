@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
-import { UserRole } from '@prisma/client';
+import { User, UserRole } from '@prisma/client';
 
+import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { UserCreatedEvent } from './events/user-created.event';
 import { UserUpdatedEvent } from './events/user-updated.event';
-import { User } from './schemas/user.schema';
 import { PrismaService } from '../../prisma';
 import { AuthUser } from '../auth/auth.interface';
 import { authorize } from '../permission/permission.utils';
@@ -30,6 +31,7 @@ export class UserService {
     return this.prisma.userRole.findMany({ where: { userId } });
   }
 
+  // TODO: change to command pattern
   public async update(
     currentUser: AuthUser,
     { id, ...data }: UpdateUserInput,
@@ -50,5 +52,16 @@ export class UserService {
     this.eventBus.publish(new UserUpdatedEvent(user.id));
 
     return updatedUser;
+  }
+
+  // TODO: change to command pattern
+  public async create(data: CreateUserInput): Promise<User> {
+    const user = await this.prisma.user.create({
+      data,
+    });
+
+    this.eventBus.publish(new UserCreatedEvent(user));
+
+    return user;
   }
 }
