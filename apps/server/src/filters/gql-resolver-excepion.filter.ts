@@ -3,8 +3,8 @@ import { Catch, ArgumentsHost, HttpException } from '@nestjs/common';
 import { GqlExceptionFilter, GqlArgumentsHost } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';
 import { TechbridgeLogger } from '@techbridge/util/nestjs/logger';
-import { ApolloError } from 'apollo-server-errors';
 import { Request } from 'express';
+import { GraphQLError } from 'graphql';
 
 import { ServerConfig } from '../config/server.config';
 import { ApplicationError } from '../errors/application.error';
@@ -48,7 +48,7 @@ export class GqlResolverExceptionsFilter implements GqlExceptionFilter {
     const serverError =
       ServerConfig.nodeEnv === 'production'
         ? new InternalServerError()
-        : new ApolloError(error.message);
+        : new GraphQLError(error.message);
 
     return serverError;
   }
@@ -83,9 +83,9 @@ export class GqlResolverExceptionsFilter implements GqlExceptionFilter {
     return null;
   }
 
-  private applicationClientError(error: Error): ApolloError | null {
+  private applicationClientError(error: Error): GraphQLError | null {
     if (error instanceof ApplicationError) {
-      return new ApolloError(error.message);
+      return new GraphQLError(error.message);
     }
 
     return null;

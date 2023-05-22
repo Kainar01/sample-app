@@ -1,6 +1,6 @@
-import { ApolloError } from 'apollo-server-errors';
+import { GraphQLError } from 'graphql';
 
-export class InternalServerError extends ApolloError {
+export class InternalServerError extends GraphQLError {
   constructor() {
     super('Internal server error');
   }
