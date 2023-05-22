@@ -1,4 +1,5 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { BullModule } from '@nestjs/bull';
 import { HttpException, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -13,6 +14,7 @@ import { RequestContextModule } from 'nestjs-request-context';
 
 import { AuthConfig } from './config/auth.config';
 import { GraphQLConfig } from './config/graphql.config';
+import { RedisConfig } from './config/redis.config';
 import { SentryConfig } from './config/sentry.config';
 import { ServerConfig } from './config/server.config';
 import { CoreModule } from './core/core.module';
@@ -32,6 +34,13 @@ import { CoreModule } from './core/core.module';
       connection: {
         namespace: 'auth',
         url: AuthConfig.REDIS_URL,
+      },
+    }),
+    BullModule.forRoot({
+      redis: RedisConfig.URL,
+      defaultJobOptions: {
+        removeOnComplete: true,
+        attempts: 3,
       },
     }),
     CoreModule,
