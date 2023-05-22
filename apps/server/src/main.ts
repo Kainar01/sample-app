@@ -18,6 +18,8 @@ import {
   swaggerSetupOptions,
 } from './swagger';
 
+export const APP_ROOT_PATH = __dirname;
+
 function middleware(app: INestApplication): void {
   // CORS
   if (ServerConfig.corsEnable) {
