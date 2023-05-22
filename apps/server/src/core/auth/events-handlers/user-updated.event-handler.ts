@@ -5,7 +5,9 @@ import { UserUpdatedEvent } from '../../user/events/user-updated.event';
 import { RedisAuthService } from '../redis-auth.service';
 
 @EventsHandler(UserUpdatedEvent)
-export class UserUpdatedHandler implements IEventHandler<UserUpdatedEvent> {
+export class UserUpdatedEventHandler
+  implements IEventHandler<UserUpdatedEvent>
+{
   constructor(
     private readonly redisAuthService: RedisAuthService,
     private readonly logger: TechbridgeLogger,
