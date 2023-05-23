@@ -31,7 +31,6 @@ export class UserService {
     return this.prisma.userRole.findMany({ where: { userId } });
   }
 
-  // TODO: change to command pattern
   public async update(
     currentUser: AuthUser,
     { id, ...data }: UpdateUserInput,
@@ -54,7 +53,6 @@ export class UserService {
     return updatedUser;
   }
 
-  // TODO: change to command pattern
   public async create(data: CreateUserInput): Promise<User> {
     const user = await this.prisma.user.create({
       data,
