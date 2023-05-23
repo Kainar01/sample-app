@@ -1,10 +1,12 @@
 import { UseFilters, UseGuards } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Response } from 'express';
 import _ from 'lodash';
 
 import { AuthUser } from './auth.interface';
 import { AuthService } from './auth.service';
+import { SignupCommand } from './commands/signup.command';
 import { SigninArgs } from './dto/signin.args';
 import { SignupArgs } from './dto/signup.args';
 import { Auth } from './schemas/auth.schema';
@@ -15,7 +17,10 @@ import { GqlRefreshAuthGuard } from '../../guards/gql-refresh-auth.guard';
 @UseFilters(GqlResolverExceptionsFilter)
 @Resolver(() => Auth)
 export class AuthResolver {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private commandBus: CommandBus,
+  ) {}
 
   @Mutation(() => Auth)
   public async signin(
@@ -34,7 +39,9 @@ export class AuthResolver {
     @Args() { data }: SignupArgs,
     @Context() ctx: any,
   ): Promise<Auth> {
-    const tokens = await this.authService.signup(data);
+    const tokens = await this.commandBus.execute<SignupCommand, Auth>(
+      new SignupCommand(data),
+    );
 
     this.setAuthCookies(tokens, ctx);
 
