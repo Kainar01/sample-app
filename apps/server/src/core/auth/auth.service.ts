@@ -3,24 +3,18 @@ import { JwtService } from '@nestjs/jwt';
 import { User, UserRole } from '@prisma/client';
 
 import { AuthUser, JWTPayload } from './auth.interface';
-import { SignupInput } from './dto/signup.input';
-import { SigninInput } from './dto/singin.input';
-import { PasswordService } from './password.service';
 import { RedisAuthService } from './redis-auth.service';
 import { Auth } from './schemas/auth.schema';
 import { AuthConfig } from '../../config/auth.config';
 import { PrismaService } from '../../prisma';
 import { Role } from '../user/enums/role.enum';
-import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-    private readonly passwordService: PasswordService,
     private readonly redisAuthService: RedisAuthService,
-    private readonly userService: UserService,
   ) {}
 
   public async getCachedUser(userId: number): Promise<AuthUser | null> {
@@ -48,47 +42,6 @@ export class AuthService {
     }
 
     return null;
-  }
-
-  public async signin(payload: SigninInput): Promise<Auth> {
-    const user = await this.prisma.user.findFirst({
-      where: { email: payload.email },
-      include: { userRoles: true },
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('Invalid email');
-    }
-
-    if (user.deletedAt) {
-      throw new UnauthorizedException('Account is deleted');
-    }
-
-    const isPasswordValid = await this.passwordService.validatePassword(
-      payload.password,
-      user.password,
-    );
-
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid password');
-    }
-
-    return this.prepareToken(user);
-  }
-
-  public async signup(payload: SignupInput): Promise<Auth> {
-    const hashedPassword = await this.passwordService.hashPassword(
-      payload.password,
-    );
-
-    const user = await this.userService.create({
-      email: payload.email,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
-      password: hashedPassword,
-    });
-
-    return this.prepareToken(user);
   }
 
   public async refreshJwt(authUser: AuthUser): Promise<Auth> {

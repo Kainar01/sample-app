@@ -1,8 +1,8 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { TechbridgeLogger } from '@techbridge/util/nestjs/logger';
 
-import { UserUpdatedEvent } from '../../user/events/user-updated.event';
-import { RedisAuthService } from '../redis-auth.service';
+import { UserUpdatedEvent } from '../../../user/events/user-updated.event';
+import { RedisAuthService } from '../../redis-auth.service';
 
 @EventsHandler(UserUpdatedEvent)
 export class UserUpdatedEventHandler

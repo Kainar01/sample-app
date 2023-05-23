@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import { AuthUser } from './auth.interface';
 import { AuthService } from './auth.service';
+import { SigninCommand } from './commands/signin.command';
 import { SignupCommand } from './commands/signup.command';
 import { SigninArgs } from './dto/signin.args';
 import { SignupArgs } from './dto/signup.args';
@@ -27,7 +28,9 @@ export class AuthResolver {
     @Args() { data }: SigninArgs,
     @Context() ctx: any,
   ): Promise<Auth> {
-    const tokens = await this.authService.signin(data);
+    const tokens = await this.commandBus.execute<SigninCommand, Auth>(
+      new SigninCommand(data),
+    );
 
     this.setAuthCookies(tokens, ctx);
 
