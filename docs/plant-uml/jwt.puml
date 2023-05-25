@@ -1,0 +1,39 @@
+' @startuml
+' actor       Actor       as actor
+' participant Server as Server
+' boundary    Boundary    as Foo2
+' control     Control     as Foo3
+' entity      Entity      as Foo4
+' database    Database    as Foo5
+' collections Collections as Foo6
+' queue       Queue       as Foo7
+' Foo -> Foo1 : To actor
+' Foo -> Foo2 : To boundary
+' Foo -> Foo3 : To control
+' Foo -> Foo4 : To entity
+' Foo -> Foo5 : To database
+' Foo -> Foo6 : To collections
+' Foo -> Foo7: To queue
+' @enduml
+
+@startuml
+
+title JWT Invalidation Process
+
+actor User
+participant Server as Server
+database Redis
+
+User -> Server: Send Request with JWT
+Server -> Redis: Check if JWT is in invalid list
+
+alt JWT is not in invalid list
+    Redis -> Server: JWT not found
+    Server --> User: Process Request
+else JWT is in invalid list
+    Redis -> Server: JWT found
+    Server --> User: Token is invalid (Error Response)
+end
+Server -> Redis: Invalidate JWT when user logout/Token is expired
+
+@enduml

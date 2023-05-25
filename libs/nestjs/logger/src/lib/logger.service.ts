@@ -1,5 +1,5 @@
 import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
-import { LoggerOptions, Logger } from '@techbridge/util/logger';
+import { LoggerOptions, Logger } from '@techbridge/logger';
 import {
   TechbridgeLoggerOptions,
   TECHBRIDGE_LOGGER_MODULE_OPTIONS,

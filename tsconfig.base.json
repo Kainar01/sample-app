@@ -16,8 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@techbridge/nestjs/redis": ["libs/nestjs/redis/src/index.ts"],
-      "@techbridge/util/logger": ["libs/util/logger/src/index.ts"],
-      "@techbridge/util/nestjs/logger": ["libs/util/nestjs/logger/src/index.ts"]
+      "@techbridge/logger": ["libs/logger/src/index.ts"],
+      "@techbridge/nestjs/logger": ["libs/nestjs/logger/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

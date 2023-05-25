@@ -6,7 +6,7 @@ import {
   Processor,
 } from '@nestjs/bull';
 import { User } from '@prisma/client';
-import { TechbridgeLogger } from '@techbridge/util/nestjs/logger';
+import { TechbridgeLogger } from '@techbridge/nestjs/logger';
 import { Job } from 'bull';
 
 import { EmailService } from '../../email/email.service';

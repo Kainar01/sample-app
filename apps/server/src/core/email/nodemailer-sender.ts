@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import { Injectable } from '@nestjs/common';
-import { TechbridgeLogger } from '@techbridge/util/nestjs/logger';
+import { TechbridgeLogger } from '@techbridge/nestjs/logger';
 import _ from 'lodash';
 import { createTransport, Transporter } from 'nodemailer';
 

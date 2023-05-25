@@ -2,7 +2,7 @@
 import { Catch, ArgumentsHost, HttpException } from '@nestjs/common';
 import { GqlExceptionFilter, GqlArgumentsHost } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';
-import { TechbridgeLogger } from '@techbridge/util/nestjs/logger';
+import { TechbridgeLogger } from '@techbridge/nestjs/logger';
 import { Request } from 'express';
 import { GraphQLError } from 'graphql';
 

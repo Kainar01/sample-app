@@ -1,4 +1,4 @@
-import { LogLevel } from '@techbridge/util/logger';
+import { LogLevel } from '@techbridge/logger';
 
 export type TechbridgeLoggerOptions = {
   serviceName: string;

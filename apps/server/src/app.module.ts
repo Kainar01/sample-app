@@ -8,8 +8,8 @@ import {
   SentryInterceptor,
   SentryModule,
 } from '@ntegral/nestjs-sentry';
+import { TechbridgeLoggerModule } from '@techbridge/nestjs/logger';
 import { RedisModule } from '@techbridge/nestjs/redis';
-import { TechbridgeLoggerModule } from '@techbridge/util/nestjs/logger';
 import { RequestContextModule } from 'nestjs-request-context';
 
 import { AuthConfig } from './config/auth.config';

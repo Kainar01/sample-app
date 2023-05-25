@@ -1,6 +1,6 @@
 import { InjectQueue } from '@nestjs/bull';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { TechbridgeLogger } from '@techbridge/util/nestjs/logger';
+import { TechbridgeLogger } from '@techbridge/nestjs/logger';
 import { Queue } from 'bull';
 import _ from 'lodash';
 
