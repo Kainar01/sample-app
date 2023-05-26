@@ -47,3 +47,6 @@ Thumbs.db
 
 # ENV
 .env
+
+# Ignore redis binary dump (dump.rdb) files
+*.rdb
