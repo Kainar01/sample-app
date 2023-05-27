@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:14
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=techbridge
+      - POSTGRES_PASSWORD=change-in-production
+      - POSTGRES_DB=techbridge
+    networks:
+      - techbridge
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - techbridge
+
+volumes:
+  redis_data:
+  postgres:
+
+
+networks:
+  techbridge:
+    name: techbridge
+    driver: bridge
