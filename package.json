@@ -8,7 +8,7 @@
     "test:server": "nx test server",
     "serve:server": "nx serve server",
     "prepare": "husky install",
-    "precommit": "lint-staged --relative"
+    "precommit": "lint-staged --relative --allow-empty"
   },
   "private": true,
   "dependencies": {
