@@ -3,8 +3,39 @@ import { Prisma, PrismaClient } from '@prisma/client';
 
 import { RequestContextService } from '../services/request-context.service';
 
-const extendedPrismaClient = (client: PrismaClient) =>
-  client.$extends({
+/**
+ * This function creates a new transaction if there is none in the current context.
+ * It will commit the transaction if it completes successfully, or abort if an error is encountered.
+ * @param {PrismaClient} client - The PrismaClient instance.
+ * @param {Function} handler - The function that will be performed within the transaction.
+ * @return {Promise<T>} - The result of the transaction.
+ */
+async function performTransaction<T>(
+  client: PrismaClient,
+  handler: () => Promise<T>,
+) {
+  return client.$transaction(async (tx) => {
+    if (!RequestContextService.getPrismaTransaction()) {
+      RequestContextService.setPrismaTransaction(tx);
+    }
+
+    try {
+      const result = await handler();
+      console.debug(`[${new Date()}] transaction committed`);
+      return result;
+    } catch (e) {
+      console.debug(`[${new Date()}] transaction aborted`);
+      throw e;
+    } finally {
+      RequestContextService.cleanPrismaTransaction();
+    }
+  });
+}
+
+function createExtendedPrismaClient(options?: Prisma.PrismaClientOptions) {
+  const client = new PrismaClient(options);
+
+  return client.$extends({
     client: {
       // async onModuleInit() {
       // Uncomment this to establish a connection on startup, this is generally not necessary
@@ -12,27 +43,12 @@ const extendedPrismaClient = (client: PrismaClient) =>
       // await Prisma.getExtensionContext(this).$connect();
       // },
       enableShutdownHooks(app: INestApplication) {
-        Prisma.getExtensionContext(client).$on('beforeExit', async () => {
+        client.$on('beforeExit', async () => {
           await app.close();
         });
       },
       async $transaction<T>(handler: () => Promise<T>) {
-        return Prisma.getExtensionContext(client).$transaction(async (tx) => {
-          if (!RequestContextService.getPrismaTransaction()) {
-            RequestContextService.setPrismaTransaction(tx);
-          }
-
-          try {
-            const result = await handler();
-            console.debug(`[${new Date()}] transaction committed`);
-            return result;
-          } catch (e) {
-            console.debug(`[${new Date()}] transaction aborted`);
-            throw e;
-          } finally {
-            RequestContextService.cleanPrismaTransaction();
-          }
-        });
+        return performTransaction(client, handler);
       },
     },
     query: {
@@ -50,16 +66,15 @@ const extendedPrismaClient = (client: PrismaClient) =>
       },
     },
   });
+}
 
 export type IExtendedPrismaClient = new (
   options?: Prisma.PrismaClientOptions,
-) => ReturnType<typeof extendedPrismaClient>;
+) => ReturnType<typeof createExtendedPrismaClient>;
 
 export const ExtendedPrismaClient = <IExtendedPrismaClient> class {
   constructor(options?: Prisma.PrismaClientOptions) {
-    const client = new PrismaClient(options);
-
     // eslint-disable-next-line no-constructor-return
-    return extendedPrismaClient(client);
+    return createExtendedPrismaClient(options);
   }
 };
