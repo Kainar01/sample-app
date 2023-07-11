@@ -1,10 +1,15 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["apps/server/tsconfig.*?.json"],
+    "project": [
+      "apps/server/tsconfig.*?.json"
+    ],
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "jest"],
+  "plugins": [
+    "@typescript-eslint",
+    "jest"
+  ],
   "extends": [
     "../../.eslintrc.json",
     "airbnb-base",
@@ -14,7 +19,10 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier"
   ],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": [
+    "!**/*",
+    "apps/server/src/kysely/types.ts"
+  ],
   "rules": {
     "class-methods-use-this": "off",
     "max-classes-per-file": "off",
@@ -54,7 +62,9 @@
     "object-curly-newline": "off",
     // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/keyword-spacing.md
     "keyword-spacing": "off",
-    "@typescript-eslint/keyword-spacing": ["error"],
+    "@typescript-eslint/keyword-spacing": [
+      "error"
+    ],
     // Change eslint rule to @typescript-eslint rule
     "lines-between-class-members": [
       "error",
@@ -98,7 +108,11 @@
             "position": "after"
           }
         ],
-        "groups": ["builtin", "external", "internal"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal"
+        ],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",
@@ -109,7 +123,9 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["~/modules/*/*"]
+        "patterns": [
+          "~/modules/*/*"
+        ]
       }
     ],
     "@typescript-eslint/consistent-indexed-object-style": "error",
@@ -138,17 +154,27 @@
       "error",
       {
         "selector": "default",
-        "format": ["strictCamelCase"]
+        "format": [
+          "strictCamelCase"
+        ]
       },
       {
         "selector": "variable",
-        "format": ["strictCamelCase", "UPPER_CASE", "StrictPascalCase"]
+        "format": [
+          "strictCamelCase",
+          "UPPER_CASE",
+          "StrictPascalCase"
+        ]
       },
       // https://github.com/microsoft/TypeScript/issues/9458
       {
         "selector": "parameter",
-        "modifiers": ["unused"],
-        "format": ["strictCamelCase"],
+        "modifiers": [
+          "unused"
+        ],
+        "format": [
+          "strictCamelCase"
+        ],
         "leadingUnderscore": "allow"
       },
       {
@@ -161,19 +187,27 @@
       },
       {
         "selector": "typeLike",
-        "format": ["PascalCase"]
+        "format": [
+          "PascalCase"
+        ]
       },
       {
         "selector": "interface",
-        "format": ["PascalCase"]
+        "format": [
+          "PascalCase"
+        ]
       },
       {
         "selector": "enumMember",
-        "format": ["UPPER_CASE"]
+        "format": [
+          "UPPER_CASE"
+        ]
       },
       {
         "selector": "classMethod",
-        "format": ["camelCase"]
+        "format": [
+          "camelCase"
+        ]
       }
     ],
     "@typescript-eslint/no-dupe-class-members": "error",
@@ -206,7 +240,10 @@
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unused-expressions": "error",
-    "@typescript-eslint/object-curly-spacing": ["error", "always"],
+    "@typescript-eslint/object-curly-spacing": [
+      "error",
+      "always"
+    ],
     "@typescript-eslint/prefer-includes": "off",
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/promise-function-async": "error",
@@ -223,7 +260,10 @@
   },
   "overrides": [
     {
-      "files": ["**/*.spec.ts", "**/*.test.ts"],
+      "files": [
+        "**/*.spec.ts",
+        "**/*.test.ts"
+      ],
       "rules": {
         "@typescript-eslint/unbound-method": "off"
       }
