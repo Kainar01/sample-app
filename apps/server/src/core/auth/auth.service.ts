@@ -1,13 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserRole } from '@prisma/client';
+import { Role, User, UserRole } from '@prisma/client';
 
 import { AuthUser, JWTPayload } from './auth.interface';
 import { RedisAuthService } from './redis-auth.service';
 import { Auth } from './schemas/auth.schema';
 import { AuthConfig } from '../../config/auth.config';
 import { PrismaService } from '../../prisma';
-import { Role } from '../user/enums/role.enum';
 
 @Injectable()
 export class AuthService {

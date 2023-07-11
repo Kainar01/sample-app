@@ -1,3 +1,9 @@
+generator kysely {
+  provider = "prisma-kysely"
+  output   = "../src/kysely"
+  fileName = "types.ts"
+}
+
 generator serverClient {
   provider = "prisma-client-js"
 }
@@ -29,9 +35,13 @@ model User {
   @@unique([email], map: "User.email_unique")
 }
 
+enum Role {
+  ADMIN
+}
+
 model UserRole {
   id        Int      @id @default(autoincrement())
-  role      String
+  role      Role
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    Int
   createdAt DateTime @default(now())
