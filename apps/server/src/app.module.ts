@@ -8,6 +8,7 @@ import {
   SentryInterceptor,
   SentryModule,
 } from '@ntegral/nestjs-sentry';
+import { EventBusModule } from '@techbridge/nestjs/event-bus';
 import { TechbridgeLoggerModule } from '@techbridge/nestjs/logger';
 import { RedisModule } from '@techbridge/nestjs/redis';
 import { RequestContextModule } from 'nestjs-request-context';
@@ -22,6 +23,7 @@ import { CoreModule } from './core/core.module';
 @Module({
   imports: [
     RequestContextModule,
+    EventBusModule.forRoot(),
     TechbridgeLoggerModule.forRoot({
       serviceName: 'server',
     }),
