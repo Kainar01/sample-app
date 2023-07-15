@@ -1,13 +1,11 @@
-import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
+import { EventsHandler } from '@techbridge/nestjs/event-bus';
 import { TechbridgeLogger } from '@techbridge/nestjs/logger';
 
 import { UserUpdatedEvent } from '../../../user/events/user-updated.event';
 import { RedisAuthService } from '../../redis-auth.service';
 
 @EventsHandler(UserUpdatedEvent)
-export class UserUpdatedEventHandler
-  implements IEventHandler<UserUpdatedEvent>
-{
+export class UserUpdatedEventHandler {
   constructor(
     private readonly redisAuthService: RedisAuthService,
     private readonly logger: TechbridgeLogger,

@@ -1,6 +1,6 @@
-import { EventBus } from '@nestjs/cqrs';
 import { Test } from '@nestjs/testing';
 import { User } from '@prisma/client';
+import { EventBus } from '@techbridge/nestjs/event-bus';
 
 import { SignupCommandHandler } from './signup.command-handler';
 import { UserService } from '../../../user/user.service';
@@ -53,7 +53,7 @@ describe('SignupCommandHandler', () => {
         },
         {
           provide: EventBus,
-          useValue: { publish: jest.fn() },
+          useValue: { publish: jest.fn().mockResolvedValue(null) },
         },
       ],
     }).compile();

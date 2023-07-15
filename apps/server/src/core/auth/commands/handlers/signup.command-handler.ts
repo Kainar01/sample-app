@@ -1,4 +1,5 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { EventBus } from '@techbridge/nestjs/event-bus';
 
 import { UserService } from '../../../user/user.service';
 import { AuthService } from '../../auth.service';
@@ -28,7 +29,7 @@ export class SignupCommandHandler implements ICommandHandler<SignupCommand> {
       password: passwordHash,
     });
 
-    this.eventBus.publish(new UserSignedUpEvent(user));
+    await this.eventBus.publish(new UserSignedUpEvent(user));
 
     return this.authService.prepareToken(user);
   }

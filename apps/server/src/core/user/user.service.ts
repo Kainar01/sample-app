@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { EventBus } from '@nestjs/cqrs';
 import { User, UserRole } from '@prisma/client';
+import { EventBus } from '@techbridge/nestjs/event-bus';
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -48,7 +48,7 @@ export class UserService {
       data,
     });
 
-    this.eventBus.publish(new UserUpdatedEvent(user.id));
+    await this.eventBus.publish(new UserUpdatedEvent(user.id));
 
     return updatedUser;
   }
@@ -58,7 +58,7 @@ export class UserService {
       data,
     });
 
-    this.eventBus.publish(new UserCreatedEvent(user));
+    await this.eventBus.publish(new UserCreatedEvent(user));
 
     return user;
   }

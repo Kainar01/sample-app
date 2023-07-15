@@ -1,6 +1,6 @@
-import { EventBus } from '@nestjs/cqrs';
 import { Test } from '@nestjs/testing';
 import { User, UserRole } from '@prisma/client';
+import { EventBus } from '@techbridge/nestjs/event-bus';
 
 import { UpdateUserInput } from './dto/update-user.input';
 import { Role } from './enums/role.enum';
@@ -35,7 +35,7 @@ describe('UserService', () => {
         {
           provide: EventBus,
           useValue: {
-            publish: jest.fn(),
+            publish: jest.fn().mockResolvedValue(null),
           },
         },
       ],
