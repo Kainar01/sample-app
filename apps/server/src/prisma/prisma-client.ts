@@ -1,4 +1,3 @@
-import { INestApplication } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 import { RequestContextService } from '../services/request-context.service';
@@ -37,16 +36,6 @@ function createExtendedPrismaClient(options?: Prisma.PrismaClientOptions) {
 
   return client.$extends({
     client: {
-      // async onModuleInit() {
-      // Uncomment this to establish a connection on startup, this is generally not necessary
-      // https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/connection-management#connect
-      // await Prisma.getExtensionContext(this).$connect();
-      // },
-      enableShutdownHooks(app: INestApplication) {
-        client.$on('beforeExit', async () => {
-          await app.close();
-        });
-      },
       async $transaction<T>(handler: () => Promise<T>) {
         return performTransaction(client, handler);
       },
