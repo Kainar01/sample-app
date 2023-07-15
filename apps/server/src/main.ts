@@ -11,7 +11,6 @@ import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { ServerConfig } from './config/server.config';
 import { SwaggerConfig } from './config/swagger.config';
-import { PrismaService } from './prisma';
 import {
   swaggerDocumentOptions,
   swaggerPath,
@@ -32,10 +31,6 @@ function middleware(app: INestApplication): void {
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
-  // enable shutdown hook
-  const prismaService: PrismaService = app.get(PrismaService);
-  prismaService.enableShutdownHooks(app);
-
   // set global api prefix
   app.setGlobalPrefix(ServerConfig.apiPrefix);
 
@@ -44,7 +39,6 @@ async function bootstrap(): Promise<void> {
     SwaggerModule.setup(swaggerPath, app, document, swaggerSetupOptions);
   }
 
-  // TODO: handle prisma shutdown
   if (ServerConfig.enableShutdownHooks) {
     app.enableShutdownHooks();
   }

@@ -29,6 +29,6 @@ export class ServerConfig {
   public static readonly enableShutdownHooks: boolean = get(
     'ENABLE_SHUTDOWN_HOOKS',
   )
-    .default('false')
+    .default('true')
     .asBool();
 }
