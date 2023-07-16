@@ -1,42 +1,42 @@
-import { DynamicModule, Module, Provider } from '@nestjs/common'
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 
 import {
   OpenAIModuleAsyncOptions,
   OpenAIModuleOptions,
-} from './openai.interface'
+} from './openai.interface';
 import {
   createAsyncOptionsProviders,
   createOptionsProvider,
   openAIClientProvider,
-} from './openai.providers'
+} from './openai.providers';
 
 @Module({})
 export class OpenAIModule {
-  static register(
+  static forRoot(
     options: OpenAIModuleOptions,
-    isGlobal = true,
+    isGlobal = false,
   ): DynamicModule {
     const providers: Provider[] = [
       createOptionsProvider(options),
       openAIClientProvider,
-    ]
+    ];
 
     return {
       global: isGlobal,
       module: OpenAIModule,
       exports: [openAIClientProvider],
       providers,
-    }
+    };
   }
 
-  static registerAsync(
+  static forRootAsync(
     options: OpenAIModuleAsyncOptions,
-    isGlobal = true,
+    isGlobal = false,
   ): DynamicModule {
     const providers: Provider[] = [
       ...createAsyncOptionsProviders(options),
       openAIClientProvider,
-    ]
+    ];
 
     return {
       global: isGlobal,
@@ -44,6 +44,6 @@ export class OpenAIModule {
       imports: options.imports,
       exports: [openAIClientProvider],
       providers,
-    }
+    };
   }
 }
