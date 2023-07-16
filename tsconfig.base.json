@@ -18,6 +18,7 @@
       "@techbridge/logger": ["libs/logger/src/index.ts"],
       "@techbridge/nestjs/event-bus": ["libs/nestjs/event-bus/src/index.ts"],
       "@techbridge/nestjs/logger": ["libs/nestjs/logger/src/index.ts"],
+      "@techbridge/nestjs/openai": ["libs/nestjs/openai/src/index.ts"],
       "@techbridge/nestjs/redis": ["libs/nestjs/redis/src/index.ts"]
     }
   },
